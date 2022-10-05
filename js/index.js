@@ -112,7 +112,7 @@ function createUser() {
     });
 }
 
-//hàm có chức năng xóa user trong danh sách
+//hàm có chức năng xóa user trong danh sách, có dấu "/"
 function deleteUser(id) {
   axios({
     url: "https://633ce4277e19b1782903a4e4.mockapi.io/User/" + id,
@@ -143,35 +143,30 @@ function searchUser() {
   renderUser(search);
 }
 
-//hàm có chức năng tìm user theo id
-function findByID(userId) {
-  for (var i = 0; i < userList.length; i++) {
-    if (userList[i].id === userId) {
-      return i;
-    }
-  }
-  return -1;
-}
-
 //hàm có chức năng lấy thông tin user cần sửa lên form modal
-function getUpdateUser(userId) {
-  var index = findByID(userId);
-  if (index == -1) {
-    return alert("User không tồn tại !!!");
-  }
+function getUpdateUser(id) {
+  axios({
+    url: "https://633ce4277e19b1782903a4e4.mockapi.io/User/" + id,
+    method: "GET",
+  })
+    .then(function (res) {
+      var user = res.data;
+      //lấy thông tin đối tượng lên giao diện form modal
+      document.getElementById("TaiKhoan").value = user.taiKhoan;
+      document.getElementById("HoTen").value = user.hoTen;
+      document.getElementById("MatKhau").value = user.matKhau;
+      document.getElementById("Email").value = user.email;
+      document.getElementById("loaiNguoiDung").value = user.loaiND;
+      document.getElementById("loaiNgonNgu").value = user.ngonNgu;
+      document.getElementById("MoTa").value = user.moTa;
+      document.getElementById("HinhAnh").value = user.hinhAnh;
 
-  var user = userList[index];
+      document.getElementById("TaiKhoan").disabled = true; //không cho user sửa mã tài khoản
+    })
 
-  document.getElementById("TaiKhoan").value = user.taiKhoan;
-  document.getElementById("HoTen").value = user.hoTen;
-  document.getElementById("MatKhau").value = user.matKhau;
-  document.getElementById("Email").value = user.email;
-  document.getElementById("loaiNguoiDung").value = user.loaiND;
-  document.getElementById("loaiNgonNgu").value = user.ngonNgu;
-  document.getElementById("MoTa").value = user.moTa;
-  document.getElementById("HinhAnh").value = user.hinhAnh;
-
-  document.getElementById("TaiKhoan").disabled = true; //không cho user sửa mã tài khoản
+    .catch(function (err) {
+      console.log(err);
+    });
 }
 
 window.onload = function () {
