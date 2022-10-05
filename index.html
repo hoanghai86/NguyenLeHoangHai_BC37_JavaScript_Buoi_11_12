@@ -116,6 +116,8 @@
                   placeholder="Nhập từ khóa"
                   aria-label="Recipient's username"
                   aria-describedby="basic-addon2"
+                  id="searchName"
+                  oninput="searchUser()"
                 />
                 <div class="input-group-append">
                   <span class="input-group-text" id="basic-addon2"
@@ -243,7 +245,13 @@
               </div>
             </div>
             <!-- Modal footer -->
-            <div class="modal-footer"></div>
+            <div class="modal-footer">
+              <button id="btnThem" type="button" class="btn btn-success" onclick="createUser()">Thêm người dùng</button>
+              <button id="btnCapNhat" type="button" class="btn btn-success" onclick="">Cập nhật</button>
+              <button id="btnDong" type="button" class="btn btn-danger" data-dismiss="modal" onclick="">Đóng</button>										
+
+
+            </div>
           </div>
         </div>
       </div>
@@ -275,5 +283,9 @@
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/series-label.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0/axios.min.js" integrity="sha512-26uCxGyoPL1nESYXHQ+KUmm3Maml7MEQNWU8hIt1hJaZa5KQAQ5ehBqK6eydcCOh6YAuZjV3augxu/5tY4fsgQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="./models/user.js"></script>
+    <script src="./js/index.js"></script>
   </body>
 </html>
