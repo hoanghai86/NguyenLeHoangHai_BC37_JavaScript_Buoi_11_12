@@ -9,8 +9,8 @@ function User(
   moTa,
   hinhAnh
 ) {
-
   //thuộc tính
+
   this.taiKhoan = taiKhoan;
   this.hoTen = hoTen;
   this.matKhau = matKhau;

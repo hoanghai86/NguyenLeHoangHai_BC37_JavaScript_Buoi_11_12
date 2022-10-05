@@ -1,26 +1,5 @@
 var userList = [];
 
-//hàm có chức năng khỏi tạo sinh viên mới dựa trên dữ liệu từ API kéo về
-// function mapData(userListAPI) {
-//   var result = []; //tạo mảng rỗng
-//   for (var i = 0; i < userListAPI.length; i++) {
-//     var ApiStudent = userListAPI[i];
-//     var newStudent = new Student(
-//       ApiStudent.id,
-//       ApiStudent.taiKhoan,
-//       ApiStudent.hoTen,
-//       ApiStudent.matKhau,
-//       ApiStudent.email,
-//       ApiStudent.loaiND,
-//       ApiStudent.ngonNgu,
-//       ApiStudent.moTa,
-//       ApiStudent.hinhAnh
-//     );
-//     result.push(newStudent); //push vào mảng result
-//   }
-//   return result;
-// }
-
 //hàm có chức năng in sinh viên ra màn hình
 //tạo HTML trong javascript
 function renderUser(data) {
@@ -47,19 +26,6 @@ function renderUser(data) {
 
 //hàm có chức năng lấy danh sách sinh viên lên giao diện
 function getUserList() {
-  //Call API
-  // var promise = axios({
-  //   url: "https://633ce4277e19b1782903a4e4.mockapi.io/User",
-  //   method: "GET",
-  // });
-  // try {
-  //   var response = await promise;
-  //   userList = mapData(response.data);
-  //   renderUser();
-  // } catch (err) {
-  //   console.log(err);
-  // }
-
   //Call API
   axios({
     url: "https://633ce4277e19b1782903a4e4.mockapi.io/User",
@@ -114,6 +80,7 @@ function createUser() {
 
 //hàm có chức năng xóa user trong danh sách, có dấu "/"
 function deleteUser(id) {
+  //Call API
   axios({
     url: "https://633ce4277e19b1782903a4e4.mockapi.io/User/" + id,
     method: "DELETE",
@@ -145,6 +112,7 @@ function searchUser() {
 
 //hàm có chức năng lấy thông tin user cần sửa lên form modal
 function getUpdateUser(id) {
+  //Call API
   axios({
     url: "https://633ce4277e19b1782903a4e4.mockapi.io/User/" + id,
     method: "GET",
@@ -152,6 +120,7 @@ function getUpdateUser(id) {
     .then(function (res) {
       var user = res.data;
       //lấy thông tin đối tượng lên giao diện form modal
+      document.getElementById("id").value = user.id;
       document.getElementById("TaiKhoan").value = user.taiKhoan;
       document.getElementById("HoTen").value = user.hoTen;
       document.getElementById("MatKhau").value = user.matKhau;
@@ -163,7 +132,46 @@ function getUpdateUser(id) {
 
       document.getElementById("TaiKhoan").disabled = true; //không cho user sửa mã tài khoản
     })
+    .catch(function (err) {
+      console.log(err);
+    });
+}
 
+//hàm có chức năng update thông tin user
+function updateUser() {
+  //Lấy thông tin người dùng nhập vô
+  var id = document.getElementById("id").value
+  var taiKhoan = document.getElementById("TaiKhoan").value;
+  var hoTen = document.getElementById("HoTen").value;
+  var matKhau = document.getElementById("MatKhau").value;
+  var email = document.getElementById("Email").value;
+  var loaiND = document.getElementById("loaiNguoiDung").value;
+  var ngonNgu = document.getElementById("loaiNgonNgu").value;
+  var moTa = document.getElementById("MoTa").value;
+  var hinhAnh = document.getElementById("HinhAnh").value;
+
+  //tạo đối tượng user mới, đây là đối tượng sau khi đã chỉnh sửa
+  var newUser = new User(
+    taiKhoan,
+    hoTen,
+    matKhau,
+    email,
+    loaiND,
+    ngonNgu,
+    moTa,
+    hinhAnh
+  );
+
+  //gửi đối tượng này xuống backend
+  //Call API
+  axios({
+    url: "https://633ce4277e19b1782903a4e4.mockapi.io/User/" + id,
+    method: "PUT",
+    data: newUser,
+  })
+    .then(function () {
+      getUserList();
+    })
     .catch(function (err) {
       console.log(err);
     });

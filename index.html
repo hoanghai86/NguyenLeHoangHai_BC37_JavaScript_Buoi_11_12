@@ -131,7 +131,7 @@
           <div class="clear-fix"></div>
           <div class="tblNguoiDung" id="tblNguoiDung">
             <!-- BEGIN TABLE NGƯỜI DÙNG -->
-            <table class="table table-bordered">
+            <table class="table table-bordered table-hover">
               <thead>
                 <th>STT</th>
                 <th>Tài khoản</th>
@@ -177,6 +177,8 @@
             <!-- Modal body -->
             <div class="modal-body">
               <div class="form-group">
+                <label style="display: none;">Id</label>
+                <input id="id" class="form-control" style="display: none;"/>
                 <label>Tài khoản</label>
                 <input
                   id="TaiKhoan"
@@ -247,7 +249,7 @@
             <!-- Modal footer -->
             <div class="modal-footer">
               <button id="btnThem" type="button" class="btn btn-success" onclick="createUser()">Thêm người dùng</button>
-              <button id="btnCapNhat" type="button" class="btn btn-success" onclick="">Cập nhật</button>
+              <button id="btnCapNhat" type="button" class="btn btn-success" onclick="updateUser()">Cập nhật</button>
               <button id="btnDong" type="button" class="btn btn-danger" data-dismiss="modal" onclick="">Đóng</button>										
 
 
