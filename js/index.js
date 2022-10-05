@@ -38,7 +38,8 @@ function renderUser(data) {
     <td>${currentUser.ngonNgu}</td>
     <td>${currentUser.loaiND}</td>
     <td><button class = "btn btn-danger" onclick="deleteUser('${currentUser.id}')">Xóa</button>
-    <button class = "btn btn-info">Sửa</button></td>
+    <button class = "btn btn-info" data-toggle="modal"
+    data-target="#myModal" onclick="getUpdateUser('${currentUser.id}')">Sửa</button></td>
     </tr>`;
   }
   document.getElementById("tblDanhSachNguoiDung").innerHTML = tableHTML;
@@ -112,17 +113,17 @@ function createUser() {
 }
 
 //hàm có chức năng xóa user trong danh sách
-async function deleteUser(id) {
-  try {
-    var res = await axios({
-      url: "https://633ce4277e19b1782903a4e4.mockapi.io/User/" + id,
-      method: "DELETE",
+function deleteUser(id) {
+  axios({
+    url: "https://633ce4277e19b1782903a4e4.mockapi.io/User/" + id,
+    method: "DELETE",
+  })
+    .then(function () {
+      getUserList();
+    })
+    .catch(function (err) {
+      console.log(err);
     });
-    console.log(res);
-    getUserList();
-  } catch (err) {
-    console.log(err);
-  }
 }
 
 //hàm có chức năng tìm kiếm theo nhóm user (GV, HV...)
@@ -140,6 +141,37 @@ function searchUser() {
     }
   }
   renderUser(search);
+}
+
+//hàm có chức năng tìm user theo id
+function findByID(userId) {
+  for (var i = 0; i < userList.length; i++) {
+    if (userList[i].id === userId) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+//hàm có chức năng lấy thông tin user cần sửa lên form modal
+function getUpdateUser(userId) {
+  var index = findByID(userId);
+  if (index == -1) {
+    return alert("User không tồn tại !!!");
+  }
+
+  var user = userList[index];
+
+  document.getElementById("TaiKhoan").value = user.taiKhoan;
+  document.getElementById("HoTen").value = user.hoTen;
+  document.getElementById("MatKhau").value = user.matKhau;
+  document.getElementById("Email").value = user.email;
+  document.getElementById("loaiNguoiDung").value = user.loaiND;
+  document.getElementById("loaiNgonNgu").value = user.ngonNgu;
+  document.getElementById("MoTa").value = user.moTa;
+  document.getElementById("HinhAnh").value = user.hinhAnh;
+
+  document.getElementById("TaiKhoan").disabled = true; //không cho user sửa mã tài khoản
 }
 
 window.onload = function () {
