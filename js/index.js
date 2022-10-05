@@ -178,6 +178,5 @@ function updateUser() {
 }
 
 window.onload = function () {
-  console.log("Loading...");
   getUserList();
 };
