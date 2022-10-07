@@ -42,6 +42,10 @@ function getUserList() {
 
 //Hàm có chức năng thêm sinh viên vào database
 function createUser() {
+  //kiểm tra thông tin đầu vào
+  var isFormValid = validateForm();
+  if (!isFormValid) return;
+
   //Lấy thông tin người dùng nhập vô
   var taiKhoan = document.getElementById("TaiKhoan").value;
   var hoTen = document.getElementById("HoTen").value;
@@ -72,6 +76,7 @@ function createUser() {
   })
     .then(function (res) {
       getUserList();
+      document.getElementById("btnDong").click();
     })
     .catch(function (err) {
       console.log(err);
@@ -140,7 +145,7 @@ function getUpdateUser(id) {
 //hàm có chức năng update thông tin user
 function updateUser() {
   //Lấy thông tin người dùng nhập vô
-  var id = document.getElementById("id").value
+  var id = document.getElementById("id").value;
   var taiKhoan = document.getElementById("TaiKhoan").value;
   var hoTen = document.getElementById("HoTen").value;
   var matKhau = document.getElementById("MatKhau").value;
@@ -175,6 +180,66 @@ function updateUser() {
     .catch(function (err) {
       console.log(err);
     });
+}
+
+//VALIDATION FORM
+//không được trống
+function require(val, spanId) {
+  if (val.length === 0) {
+    document.getElementById(spanId).innerHTML = "*Trường này bắt buộc nhập";
+    return false;
+  }
+  document.getElementById(spanId).innerHTML = "";
+  return true;
+}
+
+//kiểm tra không được trùng mã tài khoản
+function checkTaiKhoan(val, spanId) {
+  for (i = 0; i < userList.length; i++) {
+    if (userList[i].taiKhoan === val) {
+      document.getElementById(spanId).innerHTML = "*Tài khoản bị trùng !!!";
+      return false;
+    }
+  }
+  document.getElementById(spanId).innerHTML = "";
+  return true;
+}
+
+function validateForm() {
+  var taiKhoan = document.getElementById("TaiKhoan").value;
+  var hoTen = document.getElementById("HoTen").value;
+  var matKhau = document.getElementById("MatKhau").value;
+  var email = document.getElementById("Email").value;
+  var hinhAnh = document.getElementById("HinhAnh").value;
+  var loaiND = document.getElementById("loaiNguoiDung").value;
+  var ngonNgu = document.getElementById("loaiNgonNgu").value;
+  var moTa = document.getElementById("MoTa").value;
+
+  var isValid = true;
+  isValid &=
+    require(taiKhoan, "tbTaiKhoan") && checkTaiKhoan(taiKhoan, "tbTaiKhoan");
+  isValid &= require(hoTen, "tbHoTen");
+  isValid &= require(matKhau, "tbMatKhau");
+  isValid &= require(email, "tbEmail");
+  isValid &= require(hinhAnh, "tbHinhAnh");
+  isValid &= require(loaiND, "tbloaiNguoiDung");
+  isValid &= require(ngonNgu, "tbloaiNgonNgu");
+  isValid &= require(moTa, "tbMoTa");
+
+  return isValid;
+}
+
+//hàm có chức năng reset form modal
+function resetInputFormModal() {
+  document.getElementById("btnReset").click();
+  document.getElementById("tbTaiKhoan").innerHTML = "";
+  document.getElementById("tbHoTen").innerHTML = "";
+  document.getElementById("tbMatKhau").innerHTML = "";
+  document.getElementById("tbEmail").innerHTML = "";
+  document.getElementById("tbHinhAnh").innerHTML = "";
+  document.getElementById("tbloaiNguoiDung").innerHTML = "";
+  document.getElementById("tbloaiNgonNgu").innerHTML = "";
+  document.getElementById("tbMoTa").innerHTML = "";
 }
 
 window.onload = function () {

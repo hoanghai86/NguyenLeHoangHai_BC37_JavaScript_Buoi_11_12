@@ -17,6 +17,12 @@
     />
   </head>
 
+  <style>
+    .thongbao{
+      color: red;
+    }
+  </style>
+
   <body>
     <div class="container">
       <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
@@ -170,88 +176,105 @@
             <!-- Modal Header -->
             <div class="modal-header">
               <h4 class="modal-title">Modal Heading</h4>
-              <button type="button" class="close" data-dismiss="modal">
+              <button type="button" class="close" data-dismiss="modal" onclick="resetInputFormModal()">
                 &times;
               </button>
             </div>
             <!-- Modal body -->
             <div class="modal-body">
-              <div class="form-group">
-                <label style="display: none;">Id</label>
-                <input id="id" class="form-control" style="display: none;"/>
-                <label>Tài khoản</label>
-                <input
-                  id="TaiKhoan"
-                  class="form-control"
-                  placeholder="Nhập vào tài khoản"
-                />
-              </div>
-              <div class="form-group">
-                <label>Họ tên</label>
-                <input
-                  id="HoTen"
-                  class="form-control"
-                  placeholder="Nhập vào họ tên"
-                />
-              </div>
-              <div class="form-group">
-                <label>Mật khẩu</label>
-                <input
-                  id="MatKhau"
-                  class="form-control"
-                  placeholder="Nhập vào mật khẩu"
-                  type="password"
-                />
-              </div>
-              <div class="form-group">
-                <label>Email</label>
-                <input
-                  id="Email"
-                  class="form-control"
-                  placeholder="Nhập vào Email"
-                />
-              </div>  
-              <div class="form-group">
-                <label>Hình Ảnh</label>
-                <input
-                  id="HinhAnh"
-                  class="form-control"
-                  placeholder="Nhập vào hình ảnh"
-                />
-              </div>             
-              <div class="form-group">
-                <label for="">Loại Người Dùng: </label>
-                <select class="form-control" id="loaiNguoiDung">
-                  <option>Chọn loại người dùng</option>
-                  <option value="GV">Giáo viên</option>
-                  <option value="HV">Học viên</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="">Loại Ngôn Ngữ: </label>
-                <select class="form-control" id="loaiNgonNgu">
-                  <option>Chọn ngôn ngữ</option>
-                  <option>ITALIAN</option>
-                  <option>FRENCH</option>
-                  <option>JAPANESE</option>
-                  <option>CHINESE</option>
-                  <option>RUSSIAN</option>
-                  <option>SWEDEN</option>
-                  <option>SPANISH</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Mô tả</label>
-                <textarea name="" id="MoTa" class="form-control" placeholder="Nhập vào mô tả"></textarea>
-               
-              </div>
+              <form role="form">
+                <div class="form-group">
+                  <label style="display: none;">Id</label>
+                  <input id="id" class="form-control" style="display: none;"/>
+                  <label>Tài khoản</label>
+                  <input
+                    id="TaiKhoan"
+                    class="form-control"
+                    placeholder="Nhập vào tài khoản"
+                  />
+                  <span class="thongbao" id="tbTaiKhoan"></span>
+                </div>
+                <div class="form-group">
+                  <label>Họ tên</label>
+                  <input
+                    id="HoTen"
+                    class="form-control"
+                    placeholder="Nhập vào họ tên"
+                  />
+                  <span class="thongbao" id="tbHoTen"></span>
+                </div>
+                <div class="form-group">
+                  <label>Mật khẩu</label>
+                  <input
+                    id="MatKhau"
+                    class="form-control"
+                    placeholder="Nhập vào mật khẩu"
+                    type="password"
+                  />
+                  <span class="thongbao" id="tbMatKhau"></span>
+
+                </div>
+                <div class="form-group">
+                  <label>Email</label>
+                  <input
+                    id="Email"
+                    class="form-control"
+                    placeholder="Nhập vào Email"
+                  />
+                  <span class="thongbao" id="tbEmail"></span>
+
+                </div>  
+                <div class="form-group">
+                  <label>Hình Ảnh</label>
+                  <input
+                    id="HinhAnh"
+                    class="form-control"
+                    placeholder="Nhập vào hình ảnh" 
+                  />
+                  <span class="thongbao" id="tbHinhAnh"></span>
+                  
+                </div>             
+                <div class="form-group">
+                  <label for="">Loại Người Dùng: </label>
+                  <select class="form-control" id="loaiNguoiDung">
+                    <option value="">Chọn loại người dùng</option>
+                    <option value="GV">Giáo viên</option>
+                    <option value="HV">Học viên</option>
+                  </select>
+                  <span class="thongbao" id="tbloaiNguoiDung"></span>
+
+                </div>
+                <div class="form-group">
+                  <label for="">Loại Ngôn Ngữ: </label>
+                  <select class="form-control" id="loaiNgonNgu">
+                    <option value="">Chọn ngôn ngữ</option>
+                    <option>ITALIAN</option>
+                    <option>FRENCH</option>
+                    <option>JAPANESE</option>
+                    <option>CHINESE</option>
+                    <option>RUSSIAN</option>
+                    <option>SWEDEN</option>
+                    <option>SPANISH</option>
+                  </select>
+                  <span class="thongbao" id="tbloaiNgonNgu"></span>
+
+                </div>
+                <div class="form-group">
+                  <label>Mô tả</label>
+                  <textarea name="" id="MoTa" class="form-control" placeholder="Nhập vào mô tả"></textarea>
+                  <span class="thongbao" id="tbMoTa"></span>
+                  
+                </div>
+
+                <button id="btnReset" type="reset" class="btn btn-dark" style="display: none;">Reset</button>
+              </form>
+
             </div>
             <!-- Modal footer -->
             <div class="modal-footer">
               <button id="btnThem" type="button" class="btn btn-success" onclick="createUser()">Thêm người dùng</button>
               <button id="btnCapNhat" type="button" class="btn btn-success" onclick="updateUser()">Cập nhật</button>
-              <button id="btnDong" type="button" class="btn btn-danger" data-dismiss="modal" onclick="">Đóng</button>										
-
+              <button id="btnDong" type="button" class="btn btn-danger" data-dismiss="modal" onclick="resetInputFormModal()">Đóng</button>										
 
             </div>
           </div>
