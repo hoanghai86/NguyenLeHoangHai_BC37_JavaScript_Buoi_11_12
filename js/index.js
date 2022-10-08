@@ -1,6 +1,7 @@
 var userList = [];
+var userListTeacher = [];
 
-//hàm có chức năng in sinh viên ra màn hình
+//hàm có chức năng in người dùng ra màn hình
 //tạo HTML trong javascript
 function renderUser(data) {
   //nếu không truyền mảng data nào thì ta gán mặc định là mảng userList
@@ -24,7 +25,39 @@ function renderUser(data) {
   document.getElementById("tblDanhSachNguoiDung").innerHTML = tableHTML;
 }
 
-//hàm có chức năng lấy danh sách sinh viên lên giao diện
+//hàm có chức năng in danh sách giáo viên ra màn hình
+//tạo HTML trong javascript
+function renderTeacher(data) {
+  if (!data) data = userListTeacher;
+
+  var searchTeacher = [];
+  for (var i = 0; i < data.length; i++) {
+    var loaiND = data[i].loaiND;
+    if (loaiND.includes("GV")) {
+      searchTeacher.push(data[i]);
+    }
+  }
+
+  var tableHTML = "";
+  for (var i = 0; i < searchTeacher.length; i++) {
+    var currentUser = searchTeacher[i];
+    tableHTML += `<tr>
+    <td>${currentUser.id}</td>
+    <td>${currentUser.taiKhoan}</td>
+    <td>${currentUser.matKhau}</td>
+    <td>${currentUser.hoTen}</td>
+    <td>${currentUser.email}</td>
+    <td>${currentUser.ngonNgu}</td>
+    <td>${currentUser.loaiND}</td>
+    <td><button class = "btn btn-danger" onclick="deleteUser('${currentUser.id}')">Xóa</button>
+    <button class = "btn btn-info" data-toggle="modal"
+    data-target="#myModal" onclick="getUpdateUser('${currentUser.id}')">Sửa</button></td>
+    </tr>`;
+  }
+  document.getElementById("tblDanhSachGiaoVien").innerHTML = tableHTML;
+}
+
+//hàm có chức năng lấy danh sách người dùng lên giao diện
 function getUserList() {
   //Call API
   axios({
@@ -40,7 +73,23 @@ function getUserList() {
     });
 }
 
-//Hàm có chức năng thêm sinh viên vào database
+//hàm có chức năng lấy danh sách giáo viên lên giao diện
+function getTeacherList() {
+  //Call API
+  axios({
+    url: "https://633ce4277e19b1782903a4e4.mockapi.io/User",
+    method: "GET",
+  })
+    .then(function (res) {
+      userListTeacher = res.data;
+      renderTeacher();
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+}
+
+//Hàm có chức năng thêm người dùng vào database
 function createUser() {
   //kiểm tra thông tin đầu vào
   var isFormValid = validateForm();
@@ -56,7 +105,7 @@ function createUser() {
   var moTa = document.getElementById("MoTa").value;
   var hinhAnh = document.getElementById("HinhAnh").value;
 
-  //tạo 1 object đối tượng sinh viên
+  //tạo 1 object đối tượng người dùng
   var newUser = new User(
     taiKhoan,
     hoTen,
@@ -92,6 +141,7 @@ function deleteUser(id) {
   })
     .then(function () {
       getUserList();
+      getTeacherList();
     })
     .catch(function (err) {
       console.log(err);
@@ -107,12 +157,30 @@ function searchUser() {
 
   var search = [];
   for (var i = 0; i < userList.length; i++) {
-    var loaiND = userList[i].loaiND.toLowerCase();
-    if (loaiND.includes(keyword)) {
+    var taiKhoan = userList[i].taiKhoan.toLowerCase();
+    var hoTen = userList[i].hoTen.toLowerCase();
+    if (taiKhoan === keyword || hoTen.includes(keyword)) {
       search.push(userList[i]);
     }
   }
   renderUser(search);
+}
+
+//hàm có chức năng tìm kiếm giáo viên
+function searchTeacher() {
+  var keyword = document
+    .getElementById("searchTeacher")
+    .value.toLowerCase()
+    .trim();
+  var searchTeacher = [];
+  for (var i = 0; i < userListTeacher.length; i++) {
+    var taiKhoan = userListTeacher[i].taiKhoan.toLowerCase();
+    var hoTen = userListTeacher[i].hoTen.toLowerCase();
+    if (taiKhoan === keyword || hoTen.includes(keyword)) {
+      searchTeacher.push(userListTeacher[i]);
+    }
+  }
+  renderTeacher(searchTeacher);
 }
 
 //hàm có chức năng lấy thông tin user cần sửa lên form modal
@@ -180,6 +248,7 @@ function updateUser() {
   })
     .then(function () {
       getUserList();
+      getTeacherList();
       document.getElementById("btnDong").click();
     })
     .catch(function (err) {
@@ -309,7 +378,6 @@ function validateUpdateForm() {
   return isValid;
 }
 
-
 //hàm có chức năng reset form modal
 function resetInputFormModal() {
   document.getElementById("btnReset").click();
@@ -325,4 +393,5 @@ function resetInputFormModal() {
 
 window.onload = function () {
   getUserList();
+  getTeacherList();
 };

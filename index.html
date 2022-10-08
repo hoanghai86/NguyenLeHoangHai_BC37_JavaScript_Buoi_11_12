@@ -82,10 +82,10 @@
         <li class="nav-item">
           <a
             class="nav-link"
-            href="#DanhSachKhoaHoc"
+            href="#DanhSachGiaoVien"
             role="tab"
             data-toggle="tab"
-            >Danh sách khóa học</a
+            >Danh sách giáo viên</a
           >
         </li>
         <li class="nav-item">
@@ -100,7 +100,7 @@
         <!--Danh sách người dùng -->
         <div role="tabpanel" class="tab-pane  in active" id="DanhSachNguoiDung">
           <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-4">
               <!-- BEGIN BUTTOM THÊM MỚI -->
               <button
                 id="btnThemNguoiDung"
@@ -113,13 +113,13 @@
               </button>
               <!-- END BUTTON THÊM MỚI -->
             </div>
-            <div class="col-md-4">
+            <div class="col-md-8">
               <!-- BEGIN TÌM KIẾM -->
               <div class="input-group mb-3">
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Nhập từ khóa"
+                  placeholder="Nhập chính xác tài khoản hoặc họ tên để tìm kiếm"
                   aria-label="Recipient's username"
                   aria-describedby="basic-addon2"
                   id="searchName"
@@ -155,9 +155,43 @@
           <br />
         </div>
         <!-- Kết thúc danh sách người dùng -->
-        <!-- Danh sách khóa học -->
-        <div role="tabpanel" class="tab-pane fade" id="DanhSachKhoaHoc">
-          <span>Đang cập nhật...</span>
+        <!-- Danh sách giáo viên -->
+        <div role="tabpanel" class="tab-pane fade" id="DanhSachGiaoVien">
+          <div class="row">
+            <div class="col">
+              <div class="input-group mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Nhập từ khóa"
+                  oninput="searchTeacher()"
+                  id="searchTeacher"
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text"
+                    ><i class="fa fa-search"></i
+                  ></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="clear-fix"></div>
+          <div class="tblGiaoVien" id="tblGiaoVien">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <th>STT</th>
+                <th>Tài khoản</th>
+                <th>Mật khẩu</th>
+                <th>Họ tên</th>
+                <th>Email</th>
+                <th>Ngôn ngữ</th>
+                <th>Tên loại</th>
+                <th>Action</th>
+              </thead>
+              <tbody id="tblDanhSachGiaoVien"></tbody>
+            </table>
+          </div>
+
         </div>
         <!-- Kết thúc danh sách khóa học -->
         <!-- Thống kê -->
