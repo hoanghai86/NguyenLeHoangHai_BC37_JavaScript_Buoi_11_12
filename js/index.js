@@ -144,6 +144,10 @@ function getUpdateUser(id) {
 
 //hàm có chức năng update thông tin user
 function updateUser() {
+  //kiểm tra thông tin đầu vào
+  var isFormValid = validateUpdateForm();
+  if (!isFormValid) return;
+
   //Lấy thông tin người dùng nhập vô
   var id = document.getElementById("id").value;
   var taiKhoan = document.getElementById("TaiKhoan").value;
@@ -176,6 +180,7 @@ function updateUser() {
   })
     .then(function () {
       getUserList();
+      document.getElementById("btnDong").click();
     })
     .catch(function (err) {
       console.log(err);
@@ -253,6 +258,7 @@ function checkStringEmail(val, spanId) {
     "*Vui lòng nhập đúng định dạng email";
 }
 
+//hàm có chức năng kiểm tra thông tin khi tạo mới 1 người dùng
 function validateForm() {
   var taiKhoan = document.getElementById("TaiKhoan").value;
   var hoTen = document.getElementById("HoTen").value;
@@ -278,6 +284,31 @@ function validateForm() {
   isValid &= require(moTa, "tbMoTa") && checkLength(moTa, "tbMoTa", 0, 60);
   return isValid;
 }
+
+//hàm có chức năng kiểm tra thông tin khi update 1 người dùng
+function validateUpdateForm() {
+  var hoTen = document.getElementById("HoTen").value;
+  var matKhau = document.getElementById("MatKhau").value;
+  var email = document.getElementById("Email").value;
+  var hinhAnh = document.getElementById("HinhAnh").value;
+  var loaiND = document.getElementById("loaiNguoiDung").value;
+  var ngonNgu = document.getElementById("loaiNgonNgu").value;
+  var moTa = document.getElementById("MoTa").value;
+
+  var isValid = true;
+  isValid &= require(hoTen, "tbHoTen") && checkName(hoTen, "tbHoTen");
+  isValid &=
+    require(matKhau, "tbMatKhau") &&
+    checkLength(matKhau, "tbMatKhau", 6, 8) &&
+    checkStringPassword(matKhau, "tbMatKhau");
+  isValid &= require(email, "tbEmail") && checkStringEmail(email, "tbEmail");
+  isValid &= require(hinhAnh, "tbHinhAnh");
+  isValid &= require(loaiND, "tbloaiNguoiDung");
+  isValid &= require(ngonNgu, "tbloaiNgonNgu");
+  isValid &= require(moTa, "tbMoTa") && checkLength(moTa, "tbMoTa", 0, 60);
+  return isValid;
+}
+
 
 //hàm có chức năng reset form modal
 function resetInputFormModal() {
