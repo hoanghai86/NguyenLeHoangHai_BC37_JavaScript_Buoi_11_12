@@ -186,7 +186,7 @@ function updateUser() {
 //không được trống
 function require(val, spanId) {
   if (val.length === 0) {
-    document.getElementById(spanId).innerHTML = "*Trường này bắt buộc nhập";
+    document.getElementById(spanId).innerHTML = "*Trường này bắt buộc nhập !!!";
     return false;
   }
   document.getElementById(spanId).innerHTML = "";
@@ -205,6 +205,54 @@ function checkTaiKhoan(val, spanId) {
   return true;
 }
 
+//kiểm tra độ dài ký tự
+function checkLength(val, spanId, min, max) {
+  if (val.length < min || val.length > max) {
+    document.getElementById(
+      spanId
+    ).innerHTML = `*Độ dài phải từ ${min} tới ${max} ký tự`;
+    return false;
+  }
+  document.getElementById(spanId).innerHTML = "";
+  return true;
+}
+
+//kiểm tra họ tên không chứa ký tự đặc biệt
+function checkName(val, spanId) {
+  var pattern =
+    /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/g;
+
+  if (pattern.test(val)) {
+    document.getElementById(spanId).innerHTML = "";
+    return true;
+  }
+  document.getElementById(spanId).innerHTML = "*Trường này chỉ được gõ chữ !!!";
+  return false;
+}
+
+//kiểm tra định dạng mật khẩu (chứa ít nhất 1 ký tự số, 1 ký tự in hoa, 1 ký tự đặc biệt))
+function checkStringPassword(val, spanId) {
+  var pattern =
+    /^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[A-z0-9!@#$%^&*]{6,10}$/g;
+  if (pattern.test(val)) {
+    document.getElementById(spanId).innerHTML = "";
+    return true;
+  }
+  document.getElementById(spanId).innerHTML =
+    "*Mật khẩu phải chứa ít nhất 1 ký tự số, 1 ký tự in hoa, 1 ký tự đặc biệt !!!";
+}
+
+//kiểm tra định dạng email
+function checkStringEmail(val, spanId) {
+  var pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/g;
+  if (pattern.test(val)) {
+    document.getElementById(spanId).innerHTML = "";
+    return true;
+  }
+  document.getElementById(spanId).innerHTML =
+    "*Vui lòng nhập đúng định dạng email";
+}
+
 function validateForm() {
   var taiKhoan = document.getElementById("TaiKhoan").value;
   var hoTen = document.getElementById("HoTen").value;
@@ -218,14 +266,16 @@ function validateForm() {
   var isValid = true;
   isValid &=
     require(taiKhoan, "tbTaiKhoan") && checkTaiKhoan(taiKhoan, "tbTaiKhoan");
-  isValid &= require(hoTen, "tbHoTen");
-  isValid &= require(matKhau, "tbMatKhau");
-  isValid &= require(email, "tbEmail");
+  isValid &= require(hoTen, "tbHoTen") && checkName(hoTen, "tbHoTen");
+  isValid &=
+    require(matKhau, "tbMatKhau") &&
+    checkLength(matKhau, "tbMatKhau", 6, 8) &&
+    checkStringPassword(matKhau, "tbMatKhau");
+  isValid &= require(email, "tbEmail") && checkStringEmail(email, "tbEmail");
   isValid &= require(hinhAnh, "tbHinhAnh");
   isValid &= require(loaiND, "tbloaiNguoiDung");
   isValid &= require(ngonNgu, "tbloaiNgonNgu");
-  isValid &= require(moTa, "tbMoTa");
-
+  isValid &= require(moTa, "tbMoTa") && checkLength(moTa, "tbMoTa", 0, 60);
   return isValid;
 }
 
