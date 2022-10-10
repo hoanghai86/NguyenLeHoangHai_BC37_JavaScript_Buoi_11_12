@@ -29,18 +29,9 @@ function renderUser(data) {
 //tạo HTML trong javascript
 function renderTeacher(data) {
   if (!data) data = userListTeacher;
-
-  var searchTeacher = [];
-  for (var i = 0; i < data.length; i++) {
-    var loaiND = data[i].loaiND;
-    if (loaiND.includes("GV")) {
-      searchTeacher.push(data[i]);
-    }
-  }
-
   var tableHTML = "";
-  for (var i = 0; i < searchTeacher.length; i++) {
-    var currentUser = searchTeacher[i];
+  for (var i = 0; i < data.length; i++) {
+    var currentUser = data[i];
     tableHTML += `<tr>
     <td>${currentUser.id}</td>
     <td>${currentUser.taiKhoan}</td>
@@ -81,7 +72,15 @@ function getTeacherList() {
     method: "GET",
   })
     .then(function (res) {
-      userListTeacher = res.data;
+      userList = res.data;
+
+      userListTeacher = [];
+      for (var i = 0; i < userList.length; i++) {
+        var loaiND = userList[i].loaiND;
+        if (loaiND.includes("GV")) {
+          userListTeacher.push(userList[i]);
+        }
+      }
       renderTeacher();
     })
     .catch(function (err) {
